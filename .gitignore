@@ -1,0 +1,72 @@
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- Virtual Environments ----------
+venv/
+.venv/
+env/
+ENV/
+
+# ---------- Jupyter ----------
+.ipynb_checkpoints/
+
+# ---------- IDE ----------
+.vscode/
+.idea/
+
+# ---------- Operating System ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Environment Variables ----------
+.env
+.env.*
+
+# ---------- YOLO Training Outputs ----------
+runs/
+
+# ---------- Model Weights ----------
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+*.torchscript
+
+# ---------- Large Datasets ----------
+datasets/
+remapped_datasets/
+
+# ---------- Compressed Files ----------
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# ---------- Logs ----------
+*.log
+
+# ---------- Temporary Files ----------
+*.tmp
+*.bak
+
+# ---------- Build Artifacts ----------
+build/
+dist/
+
+# ---------- Python Packaging ----------
+pip-wheel-metadata/
+
+# ---------- Misc ----------
+.cache/
