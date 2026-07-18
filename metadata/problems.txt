@@ -1,0 +1,4 @@
+the model underperformed- 
+this folder contains code that analyses the issues
+with the dataset to diagnose the issue and improve
+the model's performance
