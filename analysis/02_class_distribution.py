@@ -10,8 +10,8 @@ ROOT = Path(__file__).resolve().parent.parent
 DATASET = ROOT / "datasets" / "final_food_dataset"
 DATA_YAML = DATASET / "data.yaml"
 
-REPORT_DIR = ROOT / "analysis" / "reports"
-PLOT_DIR = ROOT / "analysis" / "plots"
+REPORT_DIR = ROOT / "analysis" / "reports" / 'class distribution reports'
+PLOT_DIR = ROOT / "analysis" / "plots" / "class distribution plots"
 
 REPORT_DIR.mkdir(parents=True, exist_ok=True)
 PLOT_DIR.mkdir(parents=True, exist_ok=True)
