@@ -22,3 +22,8 @@ tqdm>=4.66.0
 # Spoonacular API
 requests>=2.32.0
 python-dotenv>=1.0.0
+
+# Backend API
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
