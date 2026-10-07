@@ -21,6 +21,7 @@ ENV/
 
 # ---------- IDE ----------
 .vscode/
+*.code-workspace
 .idea/
 
 # ---------- Operating System ----------
@@ -31,6 +32,7 @@ desktop.ini
 # ---------- Environment Variables ----------
 .env
 .env.*
+!.env.example
 
 # ---------- YOLO Training Outputs ----------
 runs/
@@ -70,3 +72,6 @@ pip-wheel-metadata/
 
 # ---------- Misc ----------
 .cache/
+# ---------- Frontend ----------
+node_modules/
+frontend/dist/
