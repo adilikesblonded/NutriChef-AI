@@ -1,0 +1,33 @@
+# Ingredient suggestions served by GET /suggestions.
+#
+# The typing box on the ingredients screen suggests the union of:
+#   - spoonacular_top_1k_ingredients.csv (Spoonacular's 1,000 most common
+#     ingredients, from https://spoonacular.com/food-api/docs#List-of-Ingredients)
+#   - every Spoonacular name in spoonacular_map.yaml
+#   - the `extra` list below
+
+# One-tap chips: common recipe ingredients the model has no class for
+often_missed:
+  - eggs
+  - butter
+  - chicken breast
+  - flour
+  - sugar
+  - salt
+  - olive oil
+  - black pepper
+  - ground beef
+  - garlic
+  - onion
+  - milk
+
+# Everyday names missing from Spoonacular's top-1k list
+extra:
+  - eggs
+  - chicken breast
+  - chicken
+  - beef
+  - pork
+  - fish
+  - paneer
+  - noodles

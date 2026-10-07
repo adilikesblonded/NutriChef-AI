@@ -18,3 +18,7 @@ PyYAML>=6.0
 
 # Progress Bars
 tqdm>=4.66.0
+
+# Spoonacular API
+requests>=2.32.0
+python-dotenv>=1.0.0

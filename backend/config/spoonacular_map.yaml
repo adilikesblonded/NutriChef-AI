@@ -1,0 +1,85 @@
+# Maps each YOLO class name (datasets/final_food_dataset/data.yaml) to the
+# ingredient name sent to Spoonacular.
+#
+#   class name: spoonacular query
+#   class name: null          -> detected, but never sent to Spoonacular
+#
+# Keyed by class name rather than ID so the map survives class re-ordering
+# between training iterations. Run scripts/verify_spoonacular_map.py after
+# editing to check every query resolves to the intended ingredient.
+
+almond: almonds
+apple: apple
+apricot: apricots
+artichoke: artichoke
+asparagus: asparagus
+avocado: avocado
+banana: banana
+bell pepper: bell pepper
+blackberry: blackberries
+blueberry: blueberries
+bread: bread
+broccoli: broccoli
+brussels sprouts: brussels sprouts
+canned food: null              # packaging category, not an ingredient
+cantaloupe: cantaloupe
+carrot: carrots
+cauliflower: cauliflower
+celery: celery
+cereal: cereal
+cheese: cheese
+cherry: cherries
+chickpea: chickpeas
+chilli: chili pepper           # British spelling does not match reliably
+coconut: coconut
+coffee: coffee
+cooking oil: vegetable oil     # generic category -> closest single ingredient
+corn: corn
+cucumber: cucumber
+date: dates                    # singular "date" is too ambiguous
+eggplant: eggplant
+fig: figs
+garlic: garlic
+ginger: ginger
+gourd: null                    # LVIS "gourd" is mostly decorative; no single match
+grape: grapes
+green bean: green beans
+kiwi: kiwi
+lemon: lemon
+lettuce: lettuce
+lime: lime
+melon: honeydew melon          # "melon" alone is too vague
+milk: milk
+mushroom: mushrooms
+nuts: mixed nuts               # generic category
+onion: onion
+orange: orange
+papaya: papaya
+pasta: pasta
+pea: peas
+peach: peach
+pear: pear
+persimmon: persimmon
+pickle: pickles
+pineapple: pineapple
+potato: potatoes
+prune: prunes
+pumpkin: pumpkin
+radish: radishes
+raspberry: raspberries
+red pepper: red bell pepper    # avoid matching red pepper flakes
+rice: rice
+sauce: null                    # packaging category, not an ingredient
+soup: null                     # a dish, not an ingredient
+spices: null                   # packaging category, not an ingredient
+spread: null                   # packaging category, not an ingredient
+spring onion: spring onions
+strawberry: strawberries
+sweet potato: sweet potatoes
+tea: tea
+tofu: tofu
+tomato: tomatoes
+turnip: turnip
+watermelon: watermelon
+yogurt: yogurt
+zucchini: zucchini

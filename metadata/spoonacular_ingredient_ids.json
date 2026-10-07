@@ -1,0 +1,342 @@
+{
+    "almond": {
+        "query": "almonds",
+        "id": 12061,
+        "name": "almonds"
+    },
+    "apple": {
+        "query": "apple",
+        "id": 9003,
+        "name": "apple"
+    },
+    "apricot": {
+        "query": "apricots",
+        "id": 9021,
+        "name": "apricot"
+    },
+    "artichoke": {
+        "query": "artichoke",
+        "id": 11007,
+        "name": "artichoke"
+    },
+    "asparagus": {
+        "query": "asparagus",
+        "id": 11011,
+        "name": "asparagus"
+    },
+    "avocado": {
+        "query": "avocado",
+        "id": 9037,
+        "name": "avocado"
+    },
+    "banana": {
+        "query": "banana",
+        "id": 9040,
+        "name": "banana"
+    },
+    "bell pepper": {
+        "query": "bell pepper",
+        "id": 10211821,
+        "name": "bell pepper"
+    },
+    "blackberry": {
+        "query": "blackberries",
+        "id": 9042,
+        "name": "blackberries"
+    },
+    "blueberry": {
+        "query": "blueberries",
+        "id": 9050,
+        "name": "blueberries"
+    },
+    "bread": {
+        "query": "bread",
+        "id": 18064,
+        "name": "bread"
+    },
+    "broccoli": {
+        "query": "broccoli",
+        "id": 11090,
+        "name": "broccoli"
+    },
+    "brussels sprouts": {
+        "query": "brussels sprouts",
+        "id": 11098,
+        "name": "brussels sprouts"
+    },
+    "cantaloupe": {
+        "query": "cantaloupe",
+        "id": 9181,
+        "name": "cantaloupe"
+    },
+    "carrot": {
+        "query": "carrots",
+        "id": 11124,
+        "name": "carrot"
+    },
+    "cauliflower": {
+        "query": "cauliflower",
+        "id": 11135,
+        "name": "cauliflower"
+    },
+    "celery": {
+        "query": "celery",
+        "id": 11143,
+        "name": "celery"
+    },
+    "cereal": {
+        "query": "cereal",
+        "id": 8029,
+        "name": "bran flakes"
+    },
+    "cheese": {
+        "query": "cheese",
+        "id": 1041009,
+        "name": "cheese"
+    },
+    "cherry": {
+        "query": "cherries",
+        "id": 9070,
+        "name": "cherries"
+    },
+    "chickpea": {
+        "query": "chickpeas",
+        "id": 16057,
+        "name": "chickpeas"
+    },
+    "chilli": {
+        "query": "chili pepper",
+        "id": 11819,
+        "name": "chili pepper"
+    },
+    "coconut": {
+        "query": "coconut",
+        "id": 12104,
+        "name": "coconut"
+    },
+    "coffee": {
+        "query": "coffee",
+        "id": 14209,
+        "name": "coffee"
+    },
+    "cooking oil": {
+        "query": "vegetable oil",
+        "id": 4669,
+        "name": "vegetable oil"
+    },
+    "corn": {
+        "query": "corn",
+        "id": 11168,
+        "name": "corn"
+    },
+    "cucumber": {
+        "query": "cucumber",
+        "id": 11206,
+        "name": "cucumber"
+    },
+    "date": {
+        "query": "dates",
+        "id": 9087,
+        "name": "dates"
+    },
+    "eggplant": {
+        "query": "eggplant",
+        "id": 11209,
+        "name": "eggplant"
+    },
+    "fig": {
+        "query": "figs",
+        "id": 9089,
+        "name": "figs"
+    },
+    "garlic": {
+        "query": "garlic",
+        "id": 11215,
+        "name": "garlic"
+    },
+    "ginger": {
+        "query": "ginger",
+        "id": 11216,
+        "name": "ginger"
+    },
+    "grape": {
+        "query": "grapes",
+        "id": 9132,
+        "name": "grapes"
+    },
+    "green bean": {
+        "query": "green beans",
+        "id": 11052,
+        "name": "green beans"
+    },
+    "kiwi": {
+        "query": "kiwi",
+        "id": 9148,
+        "name": "kiwi"
+    },
+    "lemon": {
+        "query": "lemon",
+        "id": 9150,
+        "name": "lemon"
+    },
+    "lettuce": {
+        "query": "lettuce",
+        "id": 11252,
+        "name": "lettuce"
+    },
+    "lime": {
+        "query": "lime",
+        "id": 9159,
+        "name": "lime"
+    },
+    "melon": {
+        "query": "honeydew melon",
+        "id": 9184,
+        "name": "honeydew melon"
+    },
+    "milk": {
+        "query": "milk",
+        "id": 1077,
+        "name": "milk"
+    },
+    "mushroom": {
+        "query": "mushrooms",
+        "id": 11260,
+        "name": "fresh mushrooms"
+    },
+    "onion": {
+        "query": "onion",
+        "id": 11282,
+        "name": "onion"
+    },
+    "orange": {
+        "query": "orange",
+        "id": 9200,
+        "name": "orange"
+    },
+    "papaya": {
+        "query": "papaya",
+        "id": 9226,
+        "name": "papaya"
+    },
+    "pasta": {
+        "query": "pasta",
+        "id": 20420,
+        "name": "pasta"
+    },
+    "pea": {
+        "query": "peas",
+        "id": 11304,
+        "name": "petite peas"
+    },
+    "peach": {
+        "query": "peach",
+        "id": 9236,
+        "name": "peach"
+    },
+    "pear": {
+        "query": "pear",
+        "id": 9252,
+        "name": "pear"
+    },
+    "persimmon": {
+        "query": "persimmon",
+        "id": 9265,
+        "name": "persimmon"
+    },
+    "pickle": {
+        "query": "pickles",
+        "id": 11937,
+        "name": "pickles"
+    },
+    "pineapple": {
+        "query": "pineapple",
+        "id": 9266,
+        "name": "pineapple"
+    },
+    "potato": {
+        "query": "potatoes",
+        "id": 11352,
+        "name": "potato"
+    },
+    "prune": {
+        "query": "prunes",
+        "id": 9291,
+        "name": "prunes"
+    },
+    "pumpkin": {
+        "query": "pumpkin",
+        "id": 11422,
+        "name": "sugar pumpkin"
+    },
+    "radish": {
+        "query": "radishes",
+        "id": 11429,
+        "name": "radish"
+    },
+    "raspberry": {
+        "query": "raspberries",
+        "id": 9302,
+        "name": "raspberries"
+    },
+    "red pepper": {
+        "query": "red bell pepper",
+        "id": 11821,
+        "name": "red pepper"
+    },
+    "rice": {
+        "query": "rice",
+        "id": 20444,
+        "name": "rice"
+    },
+    "spring onion": {
+        "query": "spring onions",
+        "id": 11291,
+        "name": "spring onions"
+    },
+    "strawberry": {
+        "query": "strawberries",
+        "id": 9316,
+        "name": "strawberries"
+    },
+    "sweet potato": {
+        "query": "sweet potatoes",
+        "id": 11507,
+        "name": "sweet potato"
+    },
+    "tea": {
+        "query": "tea",
+        "id": 14355,
+        "name": "tea"
+    },
+    "tofu": {
+        "query": "tofu",
+        "id": 16213,
+        "name": "tofu"
+    },
+    "tomato": {
+        "query": "tomatoes",
+        "id": 11529,
+        "name": "tomato"
+    },
+    "turnip": {
+        "query": "turnip",
+        "id": 11564,
+        "name": "turnip"
+    },
+    "watermelon": {
+        "query": "watermelon",
+        "id": 9326,
+        "name": "watermelon"
+    },
+    "yogurt": {
+        "query": "yogurt",
+        "id": 1116,
+        "name": "yogurt"
+    },
+    "zucchini": {
+        "query": "zucchini",
+        "id": 11477,
+        "name": "zucchini"
+    }
+}
