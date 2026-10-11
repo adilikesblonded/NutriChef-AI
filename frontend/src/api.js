@@ -1,8 +1,10 @@
-// All calls go through Vite's /api proxy to the FastAPI backend.
-const BASE = '/api'
+// In production VITE_API_URL points at the deployed backend (e.g. on Render).
+// In development it is unset and calls go through Vite's /api proxy.
+const BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '')
 
-const BACKEND_DOWN =
-  "Can't reach the backend. Start it with: python -m uvicorn backend.main:app --reload"
+const BACKEND_DOWN = import.meta.env.VITE_API_URL
+  ? "Can't reach the server. It may be waking up after being idle — please try again in a minute."
+  : "Can't reach the backend. Start it with: python -m uvicorn backend.main:app --reload"
 
 async function request(path, options) {
   let res
@@ -21,11 +23,6 @@ async function request(path, options) {
   }
 
   if (!res.ok) {
-    if (res.status === 429) {
-      throw new Error(
-        "Spoonacular's daily limit has been used up. Try again tomorrow — searches you already ran today still work.",
-      )
-    }
     const detail = body?.detail
     throw new Error(typeof detail === 'string' ? detail : `Request failed (${res.status})`)
   }

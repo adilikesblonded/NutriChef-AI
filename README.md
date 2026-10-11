@@ -209,6 +209,7 @@ NutriChef-AI/
 ├── analysis/
 ├── backend/
 │   ├── config/
+│   ├── models/          # best.onnx for deployment
 │   ├── spoonacular/
 │   ├── detector.py
 │   ├── main.py
@@ -223,6 +224,7 @@ NutriChef-AI/
 ├── scripts/
 ├── training/
 ├── .env.example
+├── render.yaml
 ├── requirements.txt
 └── README.md
 ```
@@ -240,7 +242,10 @@ Contains exploratory data analysis (EDA), dataset statistics, class distribution
 The FastAPI application that connects the model to the Spoonacular API.
 
 - `main.py` — API endpoints
-- `detector.py` — loads the trained YOLO model and runs inference on uploaded images
+- `detector.py` — loads the trained model and runs inference on uploaded images; supports PyTorch weights (`.pt`, via Ultralytics) for local development and ONNX (`.onnx`, via onnxruntime) for deployment
+- `models/best.onnx` — the Iteration 1 model exported to ONNX, used in deployment
+- `rate_limit.py` — per-visitor limit on requests that use Spoonacular quota
+- `requirements.txt` — lightweight deployment dependencies (no PyTorch)
 - `schemas.py` — request and response models
 - `spoonacular/` — Spoonacular API client (with caching and quota tracking), class-to-ingredient mapping, and autocomplete suggestions
 - `config/spoonacular_map.yaml` — maps each model class to the ingredient name sent to Spoonacular
@@ -399,14 +404,15 @@ SPOONACULAR_API_KEY=your_api_key_here
 Optional settings in `.env`:
 
 ```env
-# Use different model weights (defaults to runs/yolov8s_100e-3/weights/best.pt)
+# Use different model weights (.pt or .onnx). Defaults to runs/yolov8s_100e-3/weights/best.pt
+# if it exists, otherwise the bundled backend/models/best.onnx
 MODEL_PATH=runs/<run_name>/weights/best.pt
 
 # Allowed frontend origins (comma-separated)
 CORS_ORIGINS=http://localhost:5173
 ```
 
-> Trained weights and datasets are not committed to the repository. Train a model first (see below) or place your weights at the path set in `MODEL_PATH`.
+> Datasets and PyTorch training weights are not committed. The repository includes the exported ONNX model (`backend/models/best.onnx`), so the app runs straight after cloning; to retrain, see [Training](#training).
 
 ---
 
@@ -472,6 +478,46 @@ The free plan allows 150 points per day. Each recipe search and each opened reci
 
 ---
 
+# Deployment
+
+The app is deployed in two parts:
+
+```text
+Browser ──► Vercel (React frontend) ──► Render (FastAPI backend + ONNX model) ──► Spoonacular
+```
+
+The backend runs the model in ONNX format with `onnxruntime` instead of PyTorch, so it fits within Render's free-tier memory (~200 MB in use vs. the 512 MB limit). The ONNX model produces the same detections as Ultralytics' ONNX inference (boxes within 1 px, confidence within 0.02).
+
+## 1. Backend on Render
+
+1. Push the repository to GitHub.
+2. In Render: **New + → Blueprint** and select the repository. Render reads [`render.yaml`](render.yaml).
+3. When prompted, set:
+   * `SPOONACULAR_API_KEY` — your Spoonacular key
+   * `CORS_ORIGINS` — your Vercel URL, e.g. `https://nutrichef-ai.vercel.app` (you can set this after step 2 below)
+4. Once deployed, open `https://<your-service>.onrender.com/health` and check that `model_loaded` and `spoonacular_configured` are both `true`.
+
+## 2. Frontend on Vercel
+
+1. In Vercel: **Add New → Project** and import the repository.
+2. Set **Root Directory** to `frontend` (Vite is detected automatically).
+3. Add the environment variable `VITE_API_URL` = your Render URL, e.g. `https://nutrichef-api.onrender.com`.
+4. Deploy, then copy the Vercel URL into `CORS_ORIGINS` on Render.
+
+> `VITE_API_URL` is built into the frontend, so redeploy on Vercel after changing it.
+
+## Production notes
+
+* **Cold starts:** Render's free tier sleeps after 15 minutes without traffic; the first request afterwards takes up to a minute while it wakes. The frontend requests ingredient suggestions on page load, which starts waking the server early.
+* **Rate limiting:** each visitor can make `RATE_LIMIT_PER_HOUR` (default 30) recipe requests per hour, so one visitor can't use up the daily Spoonacular quota.
+* **Updating the model:** after retraining, export the new weights and replace `backend/models/best.onnx`:
+
+  ```bash
+  yolo export model=runs/<run>/weights/best.pt format=onnx imgsz=640 opset=17 simplify=True
+  ```
+
+---
+
 # Roadmap
 
 * [x] Collect datasets
@@ -485,6 +531,7 @@ The free plan allows 150 points per day. Each recipe search and each opened reci
 * [ ] Improve dataset balance
 * [ ] Add protein categories
 * [ ] Train production-ready model
+* [x] Deployment configuration (Vercel + Render)
 * [ ] Deploy application
 
 ---

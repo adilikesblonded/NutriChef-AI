@@ -41,6 +41,8 @@ runs/
 *.pt
 *.pth
 *.onnx
+# Deployment model (runs on Render without PyTorch)
+!backend/models/best.onnx
 *.engine
 *.tflite
 *.torchscript

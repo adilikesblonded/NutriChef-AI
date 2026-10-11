@@ -11,6 +11,8 @@ Flow:
 Run from the project root:
     python -m uvicorn backend.main:app --reload
 
+Deployed on Render with the ONNX model -- see render.yaml.
+
 Interactive docs: http://127.0.0.1:8000/docs
 """
 
@@ -22,11 +24,12 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, HTTPException, Query, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 from backend.detector import Detector, InvalidImageError
+from backend.rate_limit import RateLimiter
 from backend.schemas import (
     DetectResponse,
     HealthResponse,
@@ -54,6 +57,10 @@ ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp", "image/bmp"}
 # Shared services, created once at startup
 services: dict = {}
 
+# Requests that cost Spoonacular quota, per visitor per hour (0 disables)
+RATE_LIMIT_PER_HOUR = int(os.getenv("RATE_LIMIT_PER_HOUR", "30"))
+recipe_limiter = RateLimiter(RATE_LIMIT_PER_HOUR) if RATE_LIMIT_PER_HOUR > 0 else None
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -79,14 +86,22 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="NutriChef AI", version="0.1.0", lifespan=lifespan)
 
-# Frontend dev servers (Vite, CRA, plain static server); override with
-# CORS_ORIGINS="http://a,http://b" in .env
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=os.getenv(
+# Frontend dev servers by default. In production set CORS_ORIGINS to the
+# deployed frontend, e.g. CORS_ORIGINS="https://nutrichef.vercel.app", and
+# optionally CORS_ORIGIN_REGEX to also allow Vercel preview deployments.
+CORS_ORIGINS = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv(
         "CORS_ORIGINS",
         "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5500",
-    ).split(","),
+    ).split(",")
+    if origin.strip()
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=CORS_ORIGINS,
+    allow_origin_regex=os.getenv("CORS_ORIGIN_REGEX") or None,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
@@ -106,8 +121,29 @@ def get_spoonacular() -> SpoonacularClient:
 
 def spoonacular_http_error(e: SpoonacularError) -> HTTPException:
     if isinstance(e, QuotaExceededError):
-        return HTTPException(429, str(e))
+        return HTTPException(
+            429,
+            "Spoonacular's daily limit has been used up. Try again tomorrow — "
+            "searches already run today still work.",
+        )
     return HTTPException(502, str(e))
+
+
+def limit_quota_use(request: Request) -> None:
+    """Dependency for endpoints that spend Spoonacular quota."""
+    if recipe_limiter is None:
+        return
+    # Behind Render's proxy, uvicorn --proxy-headers puts the visitor's IP here
+    client = request.client.host if request.client else "unknown"
+    retry_after = recipe_limiter.hit(client)
+    if retry_after:
+        minutes = max(1, round(retry_after / 60))
+        raise HTTPException(
+            429,
+            f"Too many recipe requests. Please try again in about {minutes} "
+            f"minute{'s' if minutes != 1 else ''}.",
+            headers={"Retry-After": str(retry_after)},
+        )
 
 
 # ---------- Endpoints ----------
@@ -167,7 +203,7 @@ def detect(
     )
 
 
-@app.post("/recipes", response_model=RecipeSearchResponse)
+@app.post("/recipes", response_model=RecipeSearchResponse, dependencies=[Depends(limit_quota_use)])
 def search_recipes(request: RecipeSearchRequest):
     client = get_spoonacular()
 
@@ -208,7 +244,7 @@ def search_recipes(request: RecipeSearchRequest):
     return RecipeSearchResponse(recipes=recipes, quota_left=client.quota_left)
 
 
-@app.get("/recipes/{recipe_id}")
+@app.get("/recipes/{recipe_id}", dependencies=[Depends(limit_quota_use)])
 def recipe_details(recipe_id: int, include_nutrition: bool = True):
     try:
         return get_spoonacular().get_recipe_information(

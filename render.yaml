@@ -1,0 +1,25 @@
+# Render Blueprint for the NutriChef AI backend.
+# In Render: New + -> Blueprint -> select this repository.
+
+services:
+  - type: web
+    name: nutrichef-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: MODEL_PATH
+        value: backend/models/best.onnx
+      # Set these two in the Render dashboard when prompted
+      - key: SPOONACULAR_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      # Spoonacular-backed requests allowed per visitor per hour
+      - key: RATE_LIMIT_PER_HOUR
+        value: "30"
